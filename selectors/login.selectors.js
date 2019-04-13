@@ -10,5 +10,6 @@ module.exports = {
 		'body > div.container-fluid > div > div.col-12.col-lg > div > div > div.col-12.col-lg-5.order-lg-1 > form > button',
 	profileSelector: '.HEADER-action-user-info > a > strong',
 	errorSelector:
-		'#errorsModal > div > div > div.modal-body > div > div > div > p'
+		'#errorsModal > div > div > div.modal-body > div > div > div > p',
+	logoutSelector: '.HEADER-action > .HEADER-action-icon'
 };

@@ -53,6 +53,10 @@ describe('logging in', () => {
 			el => el.innerHTML
 		);
 		expect(profileText).toEqual('Eesnimi1 Perenimi1');
+
+		// logout
+		await page.click(selectors.logoutSelector);
+		await page.waitFor(selectors.loginPageBtnSelector);
 	});
 
 	test('when entering invalid password, error message is shown', async () => {
