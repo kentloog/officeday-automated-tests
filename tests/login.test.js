@@ -31,14 +31,14 @@ test('navigate to login page', async () => {
 	expect(headerText).toEqual('Kasutaja sisselogimine');
 });
 
-describe('logging in', () => {
+describe('logging in and out', () => {
 	beforeEach(async () => {
 		await page.click(selectors.loginPageBtnSelector);
 		await page.waitFor(selectors.loginPageHeaderSelector);
 	});
 
 	test('when entering correct username and password, login is succesful', async () => {
-		jest.setTimeout(20000);
+		jest.setTimeout(30000);
 		await page.click(selectors.usernameSelector);
 		await page.keyboard.type(credentials.username);
 
@@ -57,6 +57,11 @@ describe('logging in', () => {
 		// logout
 		await page.click(selectors.logoutSelector);
 		await page.waitFor(selectors.loginPageBtnSelector);
+		const loginText = await page.$eval(
+			selectors.loginPageBtnTextSelector,
+			el => el.innerHTML
+		);
+		expect(loginText).toEqual('Logi sisse');
 	});
 
 	test('when entering invalid password, error message is shown', async () => {

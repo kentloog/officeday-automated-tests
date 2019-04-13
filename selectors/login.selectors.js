@@ -11,5 +11,8 @@ module.exports = {
 	profileSelector: '.HEADER-action-user-info > a > strong',
 	errorSelector:
 		'#errorsModal > div > div > div.modal-body > div > div > div > p',
-	logoutSelector: '.HEADER-action > .HEADER-action-icon'
+	logoutSelector: '.HEADER-action > .HEADER-action-icon',
+	loginPageBtnTextSelector: `body > header > div > 
+		div.HEADER-main.row.justify-content-between.align-items-center > 
+		div.HEADER-actions.col-auto > ul > li:nth-child(1) > div > a:nth-child(1) > strong`
 };
