@@ -81,7 +81,8 @@ describe('while not logged in', () => {
 
 describe('while logged in', () => {
 	jest.setTimeout(120000);
-	test('adding products to cart with category navigation', async () => {
+
+	beforeEach(async () => {
 		await page.click(loginSelectors.loginPageBtnSelector);
 		await page.waitFor(loginSelectors.loginPageHeaderSelector);
 
@@ -94,12 +95,9 @@ describe('while logged in', () => {
 		await page.click(loginSelectors.submitSelector);
 
 		await page.waitFor(loginSelectors.profileSelector);
-		const profileText = await page.$eval(
-			loginSelectors.profileSelector,
-			el => el.innerHTML
-		);
-		expect(profileText).toEqual('Eesnimi1 Perenimi1');
+	});
 
+	test('adding products to cart with category navigation', async () => {
 		await page.click(productsSelectors.category1Selector);
 		await page.click(productsSelectors.category1SubSelector1);
 		await page.click(productsSelectors.category1SubSelector2);
@@ -130,24 +128,6 @@ describe('while logged in', () => {
 	});
 
 	test('adding products to cart with search', async () => {
-		await page.click(loginSelectors.loginPageBtnSelector);
-		await page.waitFor(loginSelectors.loginPageHeaderSelector);
-
-		await page.click(loginSelectors.usernameSelector);
-		await page.keyboard.type(credentials.username);
-
-		await page.click(loginSelectors.passwordSelector);
-		await page.keyboard.type(credentials.password);
-		await page.waitFor(loginSelectors.submitSelector);
-		await page.click(loginSelectors.submitSelector);
-
-		await page.waitFor(loginSelectors.profileSelector);
-		const profileText = await page.$eval(
-			loginSelectors.profileSelector,
-			el => el.innerHTML
-		);
-		expect(profileText).toEqual('Eesnimi1 Perenimi1');
-
 		const searchBoxHandle = await page.$(
 			productsSelectors.searchBoxInputSelector
 		);
