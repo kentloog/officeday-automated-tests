@@ -22,26 +22,43 @@ afterEach(async () => {
 });
 
 describe('adding products to cart', () => {
+	jest.setTimeout(30000);
 	test('while not logged in', async () => {
+		jest.setTimeout(20000);
 		const expectedSum = `
         Summa:
-    
-                                5,94 €
+
+                                24,54 €
                         `;
-		await page.click(productsSelectors.categorySelector);
-		await page.click(productsSelectors.subCategorySelector);
-		await page.click(productsSelectors.subCategorySelector2);
+		await page.click(productsSelectors.category1Selector);
+		await page.click(productsSelectors.category1SubSelector1);
+		await page.click(productsSelectors.category1SubSelector2);
 
 		await page.waitFor(productsSelectors.productSelector1);
 		await page.click(productsSelectors.productSelector1);
 
-		setTimeout(async () => {
-			const productAddedMsgTest = await page.$eval(
-				productsSelectors.productAddedMsg,
-				el => el.innerHTML
-			);
-			expect(productAddedMsgTest).toEqual('Toode lisatud ostukorvi');
+		await page.waitFor(productsSelectors.product1AddedMsg);
+		let productAddedMsgText = await page.$eval(
+			productsSelectors.product1AddedMsg,
+			el => el.innerHTML
+		);
+		expect(productAddedMsgText).toEqual('Toode lisatud ostukorvi');
 
+		await page.click(productsSelectors.category2Selector);
+		await page.click(productsSelectors.category2SubSelector1);
+		await page.click(productsSelectors.category2SubSelector2);
+
+		await page.waitFor(productsSelectors.productSelector2);
+		await page.click(productsSelectors.productSelector2);
+
+		await page.waitFor(productsSelectors.product2AddedMsg);
+		productAddedMsgText = await page.$eval(
+			productsSelectors.product2AddedMsg,
+			el => el.innerHTML
+		);
+		expect(productAddedMsgText).toEqual('Toode lisatud ostukorvi');
+
+		setTimeout(async () => {
 			const cartSumText = await page.$eval(
 				productsSelectors.cartSumSelector,
 				el => el.innerHTML
