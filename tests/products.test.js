@@ -21,6 +21,8 @@ afterEach(async () => {
 	await browser.close();
 });
 
+const searchProduct = page => {};
+
 describe('while not logged in', () => {
 	jest.setTimeout(120000);
 	test('adding products to cart with category navigation', async () => {
@@ -71,20 +73,6 @@ describe('while not logged in', () => {
 		await page.waitFor(productsSelectors.searchProductAddedMsgSelector);
 		let productAddedMsgText = await page.$eval(
 			productsSelectors.searchProductAddedMsgSelector,
-			el => el.innerHTML
-		);
-		expect(productAddedMsgText).toEqual('Toode lisatud ostukorvi');
-
-		await page.click(productsSelectors.category2Selector);
-		await page.click(productsSelectors.category2SubSelector1);
-		await page.click(productsSelectors.category2SubSelector2);
-
-		await page.waitFor(productsSelectors.productSelector2);
-		await page.click(productsSelectors.productSelector2);
-
-		await page.waitFor(productsSelectors.product2AddedMsg);
-		productAddedMsgText = await page.$eval(
-			productsSelectors.product2AddedMsg,
 			el => el.innerHTML
 		);
 		expect(productAddedMsgText).toEqual('Toode lisatud ostukorvi');
@@ -172,20 +160,6 @@ describe('while logged in', () => {
 		await page.waitFor(productsSelectors.searchProductAddedMsgSelector);
 		let productAddedMsgText = await page.$eval(
 			productsSelectors.searchProductAddedMsgSelector,
-			el => el.innerHTML
-		);
-		expect(productAddedMsgText).toEqual('Toode lisatud ostukorvi');
-
-		await page.click(productsSelectors.category2Selector);
-		await page.click(productsSelectors.category2SubSelector1);
-		await page.click(productsSelectors.category2SubSelector2);
-
-		await page.waitFor(productsSelectors.productSelector2);
-		await page.click(productsSelectors.productSelector2);
-
-		await page.waitFor(productsSelectors.product2AddedMsg);
-		productAddedMsgText = await page.$eval(
-			productsSelectors.product2AddedMsg,
 			el => el.innerHTML
 		);
 		expect(productAddedMsgText).toEqual('Toode lisatud ostukorvi');
