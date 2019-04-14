@@ -28,5 +28,9 @@ module.exports = {
         div.row.pt-0 > div.col-12.col-lg-12.col-xl-5.pt-xl-2.pt-lg-5.p-xl-0.pt-1.grid-variants-select-button.grid-variants-select-button-c > a`,
 	searchProductAddedMsgSelector: `#form_284017d78ec3868a75ed9108c8d2a3b8 > div > a > 
         div.card-img-top.product-background-image.grid-icons-parent.in-basket-border > 
-        div.added-to-basket-message.text-center > h6`
+	div.added-to-basket-message.text-center > h6`,
+	cleanBasketSelector:
+		'#deleteAll > div.col-12.col-lg-5.pt-3 > div > div:nth-child(2) > a',
+	basketSumSelector: `#cartContent > div > div.row.justify-content-end > div > table > tbody > tr:nth-child(5) > td:nth-child(2)`,
+	basketIsEmptySelector: `#cartHeader > div.whiteBoxInner > div.whiteBoxInner2.clearme.form > div`
 };

@@ -13,6 +13,9 @@ beforeEach(async () => {
 
 	page = await browser.newPage();
 	await page.setViewport({ width: 1366, height: 768 });
+	page.on('dialog', dialog => {
+		dialog.accept();
+	});
 
 	await page.goto('https://officeday.ee');
 });
@@ -69,10 +72,37 @@ const testAddingCategoryProduct = async () => {
 	expect(productAddedMsgText).toEqual('Toode lisatud ostukorvi');
 };
 
+const validateBasketData = async sum => {
+	await page.goto('https://www.officeday.ee/index.php?cl=basket');
+	await page.waitFor(productsSelectors.basketSumSelector);
+
+	const basketSum = await page.$eval(
+		productsSelectors.basketSumSelector,
+		el => el.innerHTML
+	);
+	expect(basketSum).toEqual(sum);
+};
+
+const removeAllProducts = async () => {
+	await page.goto('https://www.officeday.ee/index.php?cl=basket');
+	await page.waitFor(productsSelectors.basketSumSelector);
+
+	await page.waitFor(productsSelectors.cleanBasketSelector);
+	await page.click(productsSelectors.cleanBasketSelector);
+
+	await page.waitFor(productsSelectors.basketIsEmptySelector);
+	const basketIsEmptyText = await page.$eval(
+		productsSelectors.basketIsEmptySelector,
+		el => el.innerHTML
+	);
+	expect(basketIsEmptyText).toEqual('Ostukorv on tühi');
+};
+
 describe('while not logged in', () => {
-	jest.setTimeout(120000);
+	jest.setTimeout(320000);
 	test('adding products to cart with category navigation', async () => {
 		await testAddingCategoryProduct();
+		await validateBasketData('24,54&nbsp;€');
 	});
 
 	test('adding products to cart with search', async () => {
@@ -81,7 +111,7 @@ describe('while not logged in', () => {
 });
 
 describe('while logged in', () => {
-	jest.setTimeout(120000);
+	jest.setTimeout(220000);
 
 	beforeEach(async () => {
 		await page.click(loginSelectors.loginPageBtnSelector);
@@ -100,9 +130,11 @@ describe('while logged in', () => {
 
 	test('adding products to cart with category navigation', async () => {
 		await testAddingCategoryProduct();
+		await removeAllProducts();
 	});
 
 	test('adding products to cart with search', async () => {
 		await testAddingSearchProduct();
+		await removeAllProducts();
 	});
 });
