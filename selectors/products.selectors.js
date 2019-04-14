@@ -22,5 +22,11 @@ module.exports = {
         div.card-img-top.product-background-image.grid-icons-parent.in-basket-border > 
         div.added-to-basket-message.text-center > h6`,
 	cartSumSelector: `body > header > div > div.HEADER-main.row.justify-content-between.align-items-center > 
-        div.HEADER-actions.col-auto > ul > li.HEADER-action.mini-basket-container > div > div > a > div.HEADER-action-txt > span`
+        div.HEADER-actions.col-auto > ul > li.HEADER-action.mini-basket-container > div > div > a > div.HEADER-action-txt > span`,
+	searchBoxInputSelector: '#product-autocomplete',
+	searchProductSelector: `#form_284017d78ec3868a75ed9108c8d2a3b8 > div > div > div.grid-buttons-extended > 
+        div.row.pt-0 > div.col-12.col-lg-12.col-xl-5.pt-xl-2.pt-lg-5.p-xl-0.pt-1.grid-variants-select-button.grid-variants-select-button-c > a`,
+	searchProductAddedMsgSelector: `#form_284017d78ec3868a75ed9108c8d2a3b8 > div > a > 
+        div.card-img-top.product-background-image.grid-icons-parent.in-basket-border > 
+        div.added-to-basket-message.text-center > h6`
 };

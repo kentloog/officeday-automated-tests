@@ -33,7 +33,7 @@ test('navigate to login page', async () => {
 });
 
 describe('logging in and out', () => {
-	jest.setTimeout(40000);
+	jest.setTimeout(60000);
 	beforeEach(async () => {
 		await page.click(selectors.loginPageBtnSelector);
 		await page.waitFor(selectors.loginPageHeaderSelector);
