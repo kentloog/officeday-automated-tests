@@ -21,61 +21,62 @@ afterEach(async () => {
 	await browser.close();
 });
 
-const searchProduct = page => {};
+const testAddingSearchProduct = async () => {
+	const searchBoxHandle = await page.$(
+		productsSelectors.searchBoxInputSelector
+	);
+	await searchBoxHandle.type('kohvioad lavazza');
+	await searchBoxHandle.press('Enter');
+
+	await page.waitFor(productsSelectors.searchProductSelector);
+	await page.click(productsSelectors.searchProductSelector);
+
+	await page.waitFor(productsSelectors.searchProductAddedMsgSelector);
+	let productAddedMsgText = await page.$eval(
+		productsSelectors.searchProductAddedMsgSelector,
+		el => el.innerHTML
+	);
+	expect(productAddedMsgText).toEqual('Toode lisatud ostukorvi');
+};
+
+const testAddingCategoryProduct = async () => {
+	await page.click(productsSelectors.category1Selector);
+	await page.click(productsSelectors.category1SubSelector1);
+	await page.click(productsSelectors.category1SubSelector2);
+
+	await page.waitFor(productsSelectors.productSelector1);
+	await page.click(productsSelectors.productSelector1);
+
+	await page.waitFor(productsSelectors.product1AddedMsg);
+	let productAddedMsgText = await page.$eval(
+		productsSelectors.product1AddedMsg,
+		el => el.innerHTML
+	);
+	expect(productAddedMsgText).toEqual('Toode lisatud ostukorvi');
+
+	await page.click(productsSelectors.category2Selector);
+	await page.click(productsSelectors.category2SubSelector1);
+	await page.click(productsSelectors.category2SubSelector2);
+
+	await page.waitFor(productsSelectors.productSelector2);
+	await page.click(productsSelectors.productSelector2);
+
+	await page.waitFor(productsSelectors.product2AddedMsg);
+	productAddedMsgText = await page.$eval(
+		productsSelectors.product2AddedMsg,
+		el => el.innerHTML
+	);
+	expect(productAddedMsgText).toEqual('Toode lisatud ostukorvi');
+};
 
 describe('while not logged in', () => {
 	jest.setTimeout(120000);
 	test('adding products to cart with category navigation', async () => {
-		const expectedSum = `
-        Summa:
-
-                                24,54 €
-                        `;
-		await page.click(productsSelectors.category1Selector);
-		await page.click(productsSelectors.category1SubSelector1);
-		await page.click(productsSelectors.category1SubSelector2);
-
-		await page.waitFor(productsSelectors.productSelector1);
-		await page.click(productsSelectors.productSelector1);
-
-		await page.waitFor(productsSelectors.product1AddedMsg);
-		let productAddedMsgText = await page.$eval(
-			productsSelectors.product1AddedMsg,
-			el => el.innerHTML
-		);
-		expect(productAddedMsgText).toEqual('Toode lisatud ostukorvi');
-
-		await page.click(productsSelectors.category2Selector);
-		await page.click(productsSelectors.category2SubSelector1);
-		await page.click(productsSelectors.category2SubSelector2);
-
-		await page.waitFor(productsSelectors.productSelector2);
-		await page.click(productsSelectors.productSelector2);
-
-		await page.waitFor(productsSelectors.product2AddedMsg);
-		productAddedMsgText = await page.$eval(
-			productsSelectors.product2AddedMsg,
-			el => el.innerHTML
-		);
-		expect(productAddedMsgText).toEqual('Toode lisatud ostukorvi');
+		await testAddingCategoryProduct();
 	});
 
 	test('adding products to cart with search', async () => {
-		const searchBoxHandle = await page.$(
-			productsSelectors.searchBoxInputSelector
-		);
-		await searchBoxHandle.type('kohvioad lavazza');
-		await searchBoxHandle.press('Enter');
-
-		await page.waitFor(productsSelectors.searchProductSelector);
-		await page.click(productsSelectors.searchProductSelector);
-
-		await page.waitFor(productsSelectors.searchProductAddedMsgSelector);
-		let productAddedMsgText = await page.$eval(
-			productsSelectors.searchProductAddedMsgSelector,
-			el => el.innerHTML
-		);
-		expect(productAddedMsgText).toEqual('Toode lisatud ostukorvi');
+		await testAddingSearchProduct();
 	});
 });
 
@@ -98,50 +99,10 @@ describe('while logged in', () => {
 	});
 
 	test('adding products to cart with category navigation', async () => {
-		await page.click(productsSelectors.category1Selector);
-		await page.click(productsSelectors.category1SubSelector1);
-		await page.click(productsSelectors.category1SubSelector2);
-
-		await page.waitFor(productsSelectors.productSelector1);
-		await page.click(productsSelectors.productSelector1);
-
-		await page.waitFor(productsSelectors.product1AddedMsg);
-		let productAddedMsgText = await page.$eval(
-			productsSelectors.product1AddedMsg,
-			el => el.innerHTML
-		);
-		expect(productAddedMsgText).toEqual('Toode lisatud ostukorvi');
-
-		await page.click(productsSelectors.category2Selector);
-		await page.click(productsSelectors.category2SubSelector1);
-		await page.click(productsSelectors.category2SubSelector2);
-
-		await page.waitFor(productsSelectors.productSelector2);
-		await page.click(productsSelectors.productSelector2);
-
-		await page.waitFor(productsSelectors.product2AddedMsg);
-		productAddedMsgText = await page.$eval(
-			productsSelectors.product2AddedMsg,
-			el => el.innerHTML
-		);
-		expect(productAddedMsgText).toEqual('Toode lisatud ostukorvi');
+		await testAddingCategoryProduct();
 	});
 
 	test('adding products to cart with search', async () => {
-		const searchBoxHandle = await page.$(
-			productsSelectors.searchBoxInputSelector
-		);
-		await searchBoxHandle.type('kohvioad lavazza');
-		await searchBoxHandle.press('Enter');
-
-		await page.waitFor(productsSelectors.searchProductSelector);
-		await page.click(productsSelectors.searchProductSelector);
-
-		await page.waitFor(productsSelectors.searchProductAddedMsgSelector);
-		let productAddedMsgText = await page.$eval(
-			productsSelectors.searchProductAddedMsgSelector,
-			el => el.innerHTML
-		);
-		expect(productAddedMsgText).toEqual('Toode lisatud ostukorvi');
+		await testAddingSearchProduct();
 	});
 });
